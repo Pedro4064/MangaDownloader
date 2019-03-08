@@ -57,7 +57,7 @@ for link in volLinks:
         driver.get(link)
         time.sleep(15)  #Wait for it to load
 
-        for i in range(60): #tries to get 60 links
+        for i in range(60): #tries to get 60 links ->change so it overshoots the number of pages 
 
             time.sleep(2)
             i+=1

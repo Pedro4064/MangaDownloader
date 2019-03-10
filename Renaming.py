@@ -11,11 +11,11 @@ import os
 
 
 
-directory = "/Volumes/Pedro_Ext/Manga/Quintessential Quintuplets"
+directory = "/Volumes/Pedro_Ext/Manga/Miss_Kobaiashi"
 name = ".JPEG"
 nVolumes = 71
 
-
+#Changes to the main direcotry
 os.chdir(directory)
 
 #Loops trough all the Vol files
@@ -26,7 +26,7 @@ for i in range(nVolumes):
     os.chdir(directory+"/Vol."+str(i))
 
     #Loops trough all the .JPEG (pages) of a volume and renames it
-    for n in range(60):
+    for n in range(30):
         n+=1
 
         if n < 10:

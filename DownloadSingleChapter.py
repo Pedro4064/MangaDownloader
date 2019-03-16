@@ -117,4 +117,4 @@ else:
             os.system('mv Vol.%s.pdf %s' %(volNumber,pdfDirectory))
 
     except:
-        print(colored("[ERROR] Could not change to the finale/pdf directory",'red'))
+        print(colored("[ERROR] Could not change to the final/pdf directory",'red'))

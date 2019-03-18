@@ -46,6 +46,7 @@ fCounter = 0
 
 def User():
 
+    os.system('clear')
     print('\n')
     print('              ____                      __                __         \n   ____ ___  / __ \____ _      ______  / /___  ____ _____/ /__  _____\n  / __ `__ \/ / / / __ \ | /| / / __ \/ / __ \/ __ `/ __  / _ \/ ___/\n / / / / / / /_/ / /_/ / |/ |/ / / / / / /_/ / /_/ / /_/ /  __/ /    \n/_/ /_/ /_/_____/\____/|__/|__/_/ /_/_/\____/\__,_/\__,_/\___/_/     \n')
 
@@ -62,7 +63,7 @@ def User():
     fCounter = int(input('The number of volumes: '))
     imageDirectory = input('The directory for the images: ')
     pdfDirectory = input('The final destination for the PDFs: ')
-    userNumberOfPages = int(input('The estimate number of pages per volume: ')) + 20 #Adds 20 to overshute the number of pages to ensure you got all
+    userNumberOfPages = int(input('The estimated number of pages per volume: ')) + 20 #Adds 20 to overshute the number of pages to ensure you got all
     nLinks = fCounter-1
 
     print('\n')
@@ -83,6 +84,7 @@ def GatherVolumeLinks(mainLink,nLinks):
     time.sleep(15)
 
     #Creates a progress bar so the user can check progress
+    print('\n')
     volBar = IncrementalBar('Gathering the links for all volumes', max = nLinks)
 
     #Get the links for the volumes on the main page and adds to the volLinks list
@@ -115,10 +117,13 @@ def GatherImagesLinks():
     os.system('clear')
 
     #Create a progress bar
-    downloadBar = IncrementalBar('\nDonwloading volumes: ',max = len(volLinks))
+    print('\n')
+    downloadBar = IncrementalBar('Donwloading volumes: ',max = len(volLinks))
 
     #Goes link by link (that was obtained from the main page of the series)
     for link in volLinks:
+
+        os.system('clear')
         print('\n')
         print('              ____                      __                __         \n   ____ ___  / __ \____ _      ______  / /___  ____ _____/ /__  _____\n  / __ `__ \/ / / / __ \ | /| / / __ \/ / __ \/ __ `/ __  / _ \/ ___/\n / / / / / / /_/ / /_/ / |/ |/ / / / / / /_/ / /_/ / /_/ /  __/ /    \n/_/ /_/ /_/_____/\____/|__/|__/_/ /_/_/\____/\__,_/\__,_/\___/_/     \n')
 
@@ -131,7 +136,8 @@ def GatherImagesLinks():
             time.sleep(15)
 
             #Creates a progress bar
-            linkBar = IncrementalBar('\nGathering the image links', max = 30)
+            print('\n')
+            linkBar = IncrementalBar('Gathering the image links', max = userNumberOfPages)
 
             #Get the link for each page from volume
             for i in range(userNumberOfPages):
@@ -197,7 +203,7 @@ def downloadImages():
     print('\n')
 
     #Creates a progress bar
-    imageBar = IncrementalBar('\nDownloading images' , max = len(imgLinks))
+    imageBar = IncrementalBar('Downloading images' , max = len(imgLinks))
 
     #Downloads the image and writes it on a JPEG file
     for image_link in imgLinks:
@@ -208,40 +214,45 @@ def downloadImages():
         #Waits 2 seconds t be sure (i do not know)
         time.sleep(2)
 
-        if counter < 10:
+        try:
+            if counter < 10:
 
-            with open('00%s.JPEG' %(counter), 'wb') as image:
-                image.write(response.content)
+                with open('00%s.JPEG' %(counter), 'wb') as image:
+                    image.write(response.content)
 
-        elif counter >=10 and counter <100:
+            elif counter >=10 and counter <100:
 
-            with open('0%s.JPEG' %(counter), 'wb') as image:
-                image.write(response.content)
+                with open('0%s.JPEG' %(counter), 'wb') as image:
+                    image.write(response.content)
 
-        elif counter >=100:
+            elif counter >=100:
 
-            with open('%s.JPEG' %(counter),'wb') as image:
-                image.write(response.content)
+                with open('%s.JPEG' %(counter),'wb') as image:
+                    image.write(response.content)
 
 
-        #updates the progress bar
-        imageBar.next()
+            #updates the progress bar
+            imageBar.next()
+
+        except:
+            imageBar.next()
+            continue
 
     #I do not think it is necessary; however, set the counter variable to zero again so there are no problens
     counter = 0
 
     #Creates a pdf from all images on the directory and moves it to the pdf directory
     if fCounter < 10:
-        os.system('convert *.JPEG %s(Vol.00%d).pdf' %(seriesName,fCounter))
-        os.system('mv "%s(Vol.00%d).pdf" %s' %(seriesName,fCounter,pdfDirectory))
+        os.system('convert *.JPEG "%s-Vol.00%d.pdf"' %(seriesName,fCounter))
+        os.system('mv "%s-Vol.00%d.pdf" %s' %(seriesName,fCounter,pdfDirectory))
 
     elif fCounter >= 10 and fCounter < 100:
-        os.system('convert *.JPEG %s(Vol.0%d).pdf ' %(seriesName,fCounter))
-        os.system('mv "%s(Vol.0%d).pdf" %s' %(seriesName,fCounter,pdfDirectory))
+        os.system('convert *.JPEG "%s-Vol.0%d.pdf" ' %(seriesName,fCounter))
+        os.system('mv "%s-Vol.0%d.pdf" %s' %(seriesName,fCounter,pdfDirectory))
 
     elif fCounter >= 100:
-        os.system('convert *.JPEG %s(Vol.%d).pdf' %(seriesName,fCounter))
-        os.system('mv "%s(Vol.%d).pdf" %s' %(seriesName,fCounter,pdfDirectory))
+        os.system('convert *.JPEG "%s-Vol.%d-.pdf"' %(seriesName,fCounter))
+        os.system('mv "%s-Vol.%d-.pdf" %s' %(seriesName,fCounter,pdfDirectory))
 
     #Decreases the fCounter number to keep track of the volume it's creating(it downloads from the newest to the oldest)
     fCounter-=1

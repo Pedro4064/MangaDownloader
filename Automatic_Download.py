@@ -28,13 +28,15 @@ imageName = '%s.JPEG'
 
 
 print('              ____                      __                __         \n   ____ ___  / __ \____ _      ______  / /___  ____ _____/ /__  _____\n  / __ `__ \/ / / / __ \ | /| / / __ \/ / __ \/ __ `/ __  / _ \/ ___/\n / / / / / / /_/ / /_/ / |/ |/ / / / / / /_/ / /_/ / /_/ /  __/ /    \n/_/ /_/ /_/_____/\____/|__/|__/_/ /_/_/\____/\__,_/\__,_/\___/_/     \n')
-if sys.argv[1] == '-h':
-    print(colored( "If an error occurred and the whole programm shuts downs, you can pass the number for the last downloaded volume as an argument so it will skip to that specific volume and move on, no need to start all over again","yellow"))
-    print(colored("Example:  python3.7 Automatic_Download.py 39 \n In the case above the programm will skip all the pages already downloaded and star from 39 and move on(the download starts from the newest to the oldest)",'yellow'))
-    quit()
+
+if len(sys.argv)!=1:
+    if sys.argv[1] == '-h':
+        print(colored( "If an error occurred and the whole programm shuts downs, you can pass the number for the last downloaded volume as an argument so it will skip to that specific volume and move on, no need to start all over again","yellow"))
+        print(colored("Example:  python3.7 Automatic_Download.py 39 \n In the case above the programm will skip all the pages already downloaded and star from 39 and move on(the download starts from the newest to the oldest)",'yellow'))
+        quit()
 
 #Specifies the direcotry of the webdriver
-driver = webdriver.Chrome('/usr/local/bin/chromeDriver')
+driver = webdriver.Chrome('/Applications/chromedriver')
 
 
 #Creates lists used as reference
@@ -190,7 +192,7 @@ def GatherImagesLinks():
 
             #Closes the dirver and summons it againf to prevent future failures
             driver.quit()
-            driver = webdriver.Chrome('/usr/local/bin/chromeDriver')
+            driver = webdriver.Chrome('/Applications/chromedriver')
 
 
         downloadImages()

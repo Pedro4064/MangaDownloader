@@ -53,6 +53,7 @@ seriesName = ''
 userNumberOfPages = 0
 fCounter = 0
 
+
 def User():
 
     os.system('clear')
@@ -69,7 +70,7 @@ def User():
 
     seriesName = input('The name of the series: ')
     mainLink = input('The main Link: ')
-    fCounter = int(input('The number of volumes: '))
+    fCounter = int(input('The number of volumes you want to donwload: '))
     imageDirectory = input('The directory for the images: ')
     pdfDirectory = input('The final destination for the PDFs: ')
     userNumberOfPages = int(input('The estimated number of pages per volume: ')) + 20 #Adds 20 to overshute the number of pages to ensure you got all

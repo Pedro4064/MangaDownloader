@@ -6,7 +6,7 @@ import time
 import os
 
 #Specifies the webdriver's directory
-driver = webdriver.Chrome('/usr/local/bin/chromeDriver')
+driver = webdriver.Chrome('/Applications/chromedriver')
 
 imgLinks = []
 

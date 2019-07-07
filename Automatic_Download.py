@@ -100,7 +100,7 @@ def GatherVolumeLinks(mainLink,nLinks):
     #Get the links for the volumes on the main page and adds to the volLinks list
     for i in range(nLinks):
 
-        #The xPath counter on the site starts at 3
+        #The xPath counter on the site starts  at 3
         i+=3
         #Get the volume links available on the page
         volLinks.append(driver.find_element_by_xpath(xPath%(i)).get_attribute('href'))

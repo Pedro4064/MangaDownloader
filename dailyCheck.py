@@ -23,6 +23,8 @@ name = ''
 mainLink = ''
 lastLink = ''
 
+volumeName = ''
+
 
 #Specifies the direcotry of the webdriver
 driverPath = '/Applications/chromedriver'
@@ -49,6 +51,7 @@ def readFile():
             global name
             global mainLink
             global lastLink
+    
 
             name = line[0]
             mainLink = line[1]
@@ -58,6 +61,9 @@ def readFile():
             checkNewVolume()       
 
 def checkNewVolume():
+
+    global volumeName
+    global lastLink
 
     print("Chekcing new voluems")
 
@@ -71,6 +77,8 @@ def checkNewVolume():
 
     # save the link found so it can compre it to the one in the csv file
     latestLink = driver.find_element_by_xpath(xPath).get_attribute('href')
+    volumeName = driver.find_element_by_xpath(xPath).text
+    print(volumeName)
     
 
     # check if the newest link is the last downloaded volume, if no, it means it is a new volume
@@ -83,6 +91,8 @@ def checkNewVolume():
         downloadVolume(latestLink)
 
 def downloadVolume(link):
+
+    global volumeName
 
     # Change the directory 
     os.chdir('/Users/pedrocruz/Desktop/MangaDownloader/mangaTest')
@@ -111,6 +121,7 @@ def downloadVolume(link):
 
     # Downloads the images with the requests library
     page = 1
+    imageBar = IncrementalBar('Downloading Images', max = len(imgLinks))
     for link in imgLinks:
 
         # Creates a file to save the image in
@@ -130,12 +141,19 @@ def downloadVolume(link):
             image.write(response.content)
         
         page+=1
+        imageBar.next()
+
+    # Create the pdf out of all the png using imagemagick -> for unix systems
+    print('making pdf...')
+    formula = 'convert *png "%s.pdf"'%(volumeName)
+    os.system(formula)
 
 
 def sendMail():
 
     global userName
     global password
+    global name
 
     msg = MIMEMultipart() 
   
@@ -146,9 +164,9 @@ def sendMail():
     msg['To'] = userName 
     
     # storing the subject  and format the string to add the manga title 
-    msg['Subject'] = "New volume added for %s" %()
+    msg['Subject'] = "New volume added for %s" %(name)
     
-    filename = "as-Vol.0092.pdf"
+    filename = volumeName
     attachment = open("as-Vol.0092.pdf", "rb") 
     
     # instance of MIMEBase and named as p 

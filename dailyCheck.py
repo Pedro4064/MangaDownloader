@@ -24,6 +24,16 @@ mainLink = ''
 lastLink = ''
 
 volumeName = ''
+ 
+# Creates the lists and then clean them, since you can't create empty lists in python
+namesList = [None]
+mainLinks = [None]
+lastLinks = [None]
+
+namesList = []
+mainLinks = []
+lastLinks = []
+
 
 
 #Specifies the direcotry of the webdriver
@@ -41,7 +51,6 @@ def readFile():
 
     print("Reading file")
     
-
     # open the csv file
     with open('info.csv','r') as file:
         info = csv.reader(file,delimiter = ',')
@@ -51,21 +60,33 @@ def readFile():
             global name
             global mainLink
             global lastLink
+            global namesList
+            global mainLinks
+
+
     
 
             name = line[0]
             mainLink = line[1]
             lastLink = line[2]
 
+            # Add the info to the lists so it can be updated afterwards
+            namesList.append(line[0])
+            mainLinks.append(line[1])
+            
             # Call the check Function
-            checkNewVolume()       
+            checkNewVolume()  
+
+        #update the info file
+        updateFile()  
 
 def checkNewVolume():
 
     global volumeName
     global lastLink
+    global lastLinks
 
-    print("Chekcing new voluems")
+    print("Checking for new volumes...")
 
     #Declare strings used to scrape the site
     xPath  = '//*[@id="leftside"]/div[2]/div[2]/div[2]/table/tbody/tr[3]/td[1]/a'
@@ -84,10 +105,14 @@ def checkNewVolume():
     # check if the newest link is the last downloaded volume, if no, it means it is a new volume
     if latestLink == lastLink:
         print('All uptodate')
-        downloadVolume(latestLink)
+
+        lastLinks.append(latestLink)
 
     else:
         print('Downloading the new file')
+        # Add the last link to the list so it can be transffered to the info.csv file
+        lastLinks.append(latestLink)
+        print(latestLink)
         downloadVolume(latestLink)
 
 def downloadVolume(link):
@@ -144,61 +169,104 @@ def downloadVolume(link):
         imageBar.next()
 
     # Create the pdf out of all the png using imagemagick -> for unix systems
-    print('making pdf...')
+    print('\nmaking pdf...')
     formula = 'convert *png "%s.pdf"'%(volumeName)
     os.system(formula)
-
+    sendMail()
 
 def sendMail():
 
-    global userName
-    global password
-    global name
+    print("ok")
+    # global userName
+    # global password
+    # global volumeName
+    # global name
 
-    msg = MIMEMultipart() 
+    # print("Sending email...")
+    # msg = MIMEMultipart() 
   
-    # storing the senders email address   
-    msg['From'] = userName 
+    # # storing the senders email address   
+    # msg['From'] = userName 
     
-    # storing the receivers email address  
-    msg['To'] = userName 
+    # # storing the receivers email address  
+    # msg['To'] = userName 
     
-    # storing the subject  and format the string to add the manga title 
-    msg['Subject'] = "New volume added for %s" %(name)
+    # # storing the subject  and format the string to add the manga title 
+    # msg['Subject'] = "New volume added for %s" %(name)
     
-    filename = volumeName
-    attachment = open("as-Vol.0092.pdf", "rb") 
+    # filename = volumeName
+    # attachment = open(volumeName+'.pdf', "rb") 
     
-    # instance of MIMEBase and named as p 
-    pdf = MIMEBase('application', 'octet-stream') 
+    # # instance of MIMEBase and named as p 
+    # pdf = MIMEBase('application', 'octet-stream') 
 
-    # To change the payload into encoded form 
-    pdf.set_payload((attachment).read()) 
+    # # To change the payload into encoded form 
+    # pdf.set_payload((attachment).read()) 
     
-    # encode into base64 
-    encoders.encode_base64(pdf) 
+    # # encode into base64 
+    # encoders.encode_base64(pdf) 
     
-    pdf.add_header('Content-Disposition', "attachment; filename= %s" % filename) 
+    # pdf.add_header('Content-Disposition', "attachment; filename= %s" % filename+".pdf") 
     
-    # attach the instance 'p' to instance 'msg' 
-    msg.attach(pdf)
+    # # attach the instance 'p' to instance 'msg' 
+    # msg.attach(pdf)
 
-    # Converts the Multipart msg into a string 
-    text = msg.as_string()
+    # # Converts the Multipart msg into a string 
+    # text = msg.as_string()
     
-    # Starts the mail connection 
-    server = smtplib.SMTP('smtp.gmail.com',587)
-    server.ehlo()
-    server.starttls()
-    server.ehlo()
+    # # Starts the mail connection 
+    # server = smtplib.SMTP('smtp.gmail.com',587)
+    # server.ehlo()
+    # server.starttls()
+    # server.ehlo()
 
-    server.login(userName,password)
+    # server.login(userName,password)
 
-    # Send the message adn quit 
-    server.sendmail(userName,userName,text)
-    server.quit()
+    # # Send the message and quit, if it fails, send an email with the error
+    # try:
+    #     server.sendmail(userName,userName,text)
+    # except Exception as e:
+    #     server.sendmail(userName,userName,e)
+    #     server.sendmail(userName,userName,volumeName+" was edded but shit happened")
+
+    # server.quit()
+
+def updateFile():
+
+    global namesList
+    global lastLinks
+    global mainLinks
+    
+    print(namesList,lastLinks,mainLinks)
+    # Creates the progress bar 
+    savingBar = IncrementalBar("Saving file",max = len(namesList))
+
+    # The path to the info file
+    path = '/Users/pedrocruz/Desktop/MangaDownloader/info.csv'
+
+    # Opens the file, write mode
+    with open(path,'w',newline ='') as file:
+        info = csv.writer(file,delimiter = ',')
+
+        counter = 0
+        for name in namesList:
+            info.writerow([name,mainLinks[counter],lastLinks[counter]])
+            print(name,mainLink[counter],lastLinks[counter])
+            counter+=1
+            savingBar.next()
+        
+        print(colored("File saved","green"))
 
 
-# sendMail()
+
+# while True:
+
+    # try:
+os.system('clear')
+print('              ____                      __                __         \n   ____ ___  / __ \____ _      ______  / /___  ____ _____/ /__  _____\n  / __ `__ \/ / / / __ \ | /| / / __ \/ / __ \/ __ `/ __  / _ \/ ___/\n / / / / / / /_/ / /_/ / |/ |/ / / / / / /_/ / /_/ / /_/ /  __/ /    \n/_/ /_/ /_/_____/\____/|__/|__/_/ /_/_/\____/\__,_/\__,_/\___/_/     \n')
 readFile()
 
+    # except:
+    #     pass
+
+    # i = input('->')

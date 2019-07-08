@@ -16,7 +16,7 @@ import csv
 import os
 
 userName = 'pedrohlcruz@gmail.com'
-password =  'xxxxxxx'
+password = 'xxxxxxx'
 mangaName = ''
 
 name = ''
@@ -101,8 +101,8 @@ def checkNewVolume():
     volumeName = driver.find_element_by_xpath(xPath).text
 
     # Clean the name 
-    volumeName = volumeName.strip('~').strip('"')
-
+    volumeName = volumeName.replace('~',"").replace('"',"").replace(',','').replace('♡','')
+    
     print(volumeName)
     
 
@@ -238,7 +238,7 @@ def sendMail():
 
     # Send the message and quit, if it fails, send an email with the error
     try:
-        server.sendmail(userName,userName,text)
+        server.sendmail(userName,kindle,text)
         server.sendmail(userName,userName,notification.as_string())
         
     except Exception as e:

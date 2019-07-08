@@ -16,7 +16,7 @@ import csv
 import os
 
 userName = 'pedrohlcruz@gmail.com'
-password = 'xxxxxx'
+password =  'xxxxxxx'
 mangaName = ''
 
 name = ''
@@ -99,6 +99,10 @@ def checkNewVolume():
     # save the link found so it can compre it to the one in the csv file
     latestLink = driver.find_element_by_xpath(xPath).get_attribute('href')
     volumeName = driver.find_element_by_xpath(xPath).text
+
+    # Clean the name 
+    volumeName = volumeName.strip('~').strip('"')
+
     print(volumeName)
     
 
@@ -197,11 +201,14 @@ def sendMail():
     msg['To'] = kindle 
     notification['To'] = userName
 
-    # storing the subject  and format the string to add the manga title 
-    msg['Subject'] = "New volume added for %s" %(name)
-    notification['Subject'] = "New volume added for %s" %(name)
-    
     filename = volumeName
+
+    # storing the subject  and format the string to add the manga title 
+    msg['Subject'] = "New volume added for %s, %s" %(name,filename)
+    notification['Subject'] = "New volume added for %s,%s" %(name,filename)
+    
+    
+    print(volumeName+'.pdf')
     attachment = open(volumeName+'.pdf', "rb") 
     
     # instance of MIMEBase and named as p 
@@ -213,7 +220,7 @@ def sendMail():
     # encode into base64 
     encoders.encode_base64(pdf) 
     
-    pdf.add_header('Content-Disposition', "attachment; filename= %s" % filename+".pdf") 
+    pdf.add_header('Content-Disposition', "attachment; filename= %s.pdf" % (filename)  )
     
     # attach the instance 'p' to instance 'msg' 
     msg.attach(pdf)
@@ -231,9 +238,9 @@ def sendMail():
 
     # Send the message and quit, if it fails, send an email with the error
     try:
-        server.sendmail(userName,kindle,text)
+        server.sendmail(userName,userName,text)
         server.sendmail(userName,userName,notification.as_string())
-
+        
     except Exception as e:
         server.sendmail(userName,userName,e)
         server.sendmail(userName,userName,volumeName+" was edded but shit happened")
@@ -260,7 +267,7 @@ def updateFile():
         counter = 0
         for name in namesList:
             info.writerow([name,mainLinks[counter],lastLinks[counter]])
-            print(name,mainLink[counter],lastLinks[counter])
+    
             counter+=1
             savingBar.next()
         
@@ -268,14 +275,20 @@ def updateFile():
 
 
 
-# while True:
+while True:
 
-    # try:
-os.system('clear')
-print('              ____                      __                __         \n   ____ ___  / __ \____ _      ______  / /___  ____ _____/ /__  _____\n  / __ `__ \/ / / / __ \ | /| / / __ \/ / __ \/ __ `/ __  / _ \/ ___/\n / / / / / / /_/ / /_/ / |/ |/ / / / / / /_/ / /_/ / /_/ /  __/ /    \n/_/ /_/ /_/_____/\____/|__/|__/_/ /_/_/\____/\__,_/\__,_/\___/_/     \n')
-readFile()
+    try:
+        os.system('clear')
+        print('              ____                      __                __         \n   ____ ___  / __ \____ _      ______  / /___  ____ _____/ /__  _____\n  / __ `__ \/ / / / __ \ | /| / / __ \/ / __ \/ __ `/ __  / _ \/ ___/\n / / / / / / /_/ / /_/ / |/ |/ / / / / / /_/ / /_/ / /_/ /  __/ /    \n/_/ /_/ /_/_____/\____/|__/|__/_/ /_/_/\____/\__,_/\__,_/\___/_/     \n')
+        readFile()
 
-    # except:
-    #     pass
+    except:
+        # if an error occurs, reset the driver, to try to prevent further interruptions
+        driver.quit()
+        driver = webdriver.Chrome( options = options, executable_path=driverPath)
 
-    # i = input('->')
+        pass
+
+    
+    # wait a whole day until you check again
+    time.sleep(86400)

@@ -16,7 +16,7 @@ import csv
 import os
 
 userName = 'pedrohlcruz@gmail.com'
-password = 'waqfpbvuafucqeyu'
+password = 'xxxxxx'
 mangaName = ''
 
 name = ''
@@ -176,60 +176,69 @@ def downloadVolume(link):
 
 def sendMail():
 
-    print("ok")
-    # global userName
-    # global password
-    # global volumeName
-    # global name
+    
+    global userName
+    global password
+    global volumeName
+    global name
 
-    # print("Sending email...")
-    # msg = MIMEMultipart() 
+    kindle = 'usa.ale@kindle.com'
+
+    print("Sending email...")
+    msg = MIMEMultipart() 
+    notification = MIMEMultipart() 
   
-    # # storing the senders email address   
-    # msg['From'] = userName 
-    
-    # # storing the receivers email address  
-    # msg['To'] = userName 
-    
-    # # storing the subject  and format the string to add the manga title 
-    # msg['Subject'] = "New volume added for %s" %(name)
-    
-    # filename = volumeName
-    # attachment = open(volumeName+'.pdf', "rb") 
-    
-    # # instance of MIMEBase and named as p 
-    # pdf = MIMEBase('application', 'octet-stream') 
+    # Send email to both the kindle and personal email, as notification
+    # storing the senders email address   
+    msg['From'] = userName 
+    notification['From'] = userName
 
-    # # To change the payload into encoded form 
-    # pdf.set_payload((attachment).read()) 
-    
-    # # encode into base64 
-    # encoders.encode_base64(pdf) 
-    
-    # pdf.add_header('Content-Disposition', "attachment; filename= %s" % filename+".pdf") 
-    
-    # # attach the instance 'p' to instance 'msg' 
-    # msg.attach(pdf)
+    # storing the receivers email address  
+    msg['To'] = kindle 
+    notification['To'] = userName
 
-    # # Converts the Multipart msg into a string 
-    # text = msg.as_string()
+    # storing the subject  and format the string to add the manga title 
+    msg['Subject'] = "New volume added for %s" %(name)
+    notification['Subject'] = "New volume added for %s" %(name)
     
-    # # Starts the mail connection 
-    # server = smtplib.SMTP('smtp.gmail.com',587)
-    # server.ehlo()
-    # server.starttls()
-    # server.ehlo()
+    filename = volumeName
+    attachment = open(volumeName+'.pdf', "rb") 
+    
+    # instance of MIMEBase and named as p 
+    pdf = MIMEBase('application', 'octet-stream') 
 
-    # server.login(userName,password)
+    # To change the payload into encoded form 
+    pdf.set_payload((attachment).read()) 
+    
+    # encode into base64 
+    encoders.encode_base64(pdf) 
+    
+    pdf.add_header('Content-Disposition', "attachment; filename= %s" % filename+".pdf") 
+    
+    # attach the instance 'p' to instance 'msg' 
+    msg.attach(pdf)
 
-    # # Send the message and quit, if it fails, send an email with the error
-    # try:
-    #     server.sendmail(userName,userName,text)
-    # except Exception as e:
-    #     server.sendmail(userName,userName,e)
-    #     server.sendmail(userName,userName,volumeName+" was edded but shit happened")
+    # Converts the Multipart msg into a string 
+    text = msg.as_string()
+    
+    # Starts the mail connection 
+    server = smtplib.SMTP('smtp.gmail.com',587)
+    server.ehlo()
+    server.starttls()
+    server.ehlo()
 
-    # server.quit()
+    server.login(userName,password)
+
+    # Send the message and quit, if it fails, send an email with the error
+    try:
+        server.sendmail(userName,kindle,text)
+        server.sendmail(userName,userName,notification.as_string())
+
+    except Exception as e:
+        server.sendmail(userName,userName,e)
+        server.sendmail(userName,userName,volumeName+" was edded but shit happened")
+
+    server.quit()
 
 def updateFile():
 

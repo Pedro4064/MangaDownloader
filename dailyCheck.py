@@ -10,13 +10,14 @@ from email.mime.base import MIMEBase
 from email import encoders 
 
 import requests
+import datetime
 import time
 import sys
 import csv
 import os
 
-userName = 'pedrohlcruz@gmail.com'
-password = 'xxxxxxx'
+userName = 'xxxxxxxxxx'
+password = 'xxxxxxxxxx'
 mangaName = ''
 
 name = ''
@@ -33,6 +34,7 @@ lastLinks = [None]
 namesList = []
 mainLinks = []
 lastLinks = []
+
 
 
 
@@ -186,7 +188,7 @@ def sendMail():
     global volumeName
     global name
 
-    kindle = 'usa.ale@kindle.com'
+    kindle = 'xxxxxxxx'
 
     print("Sending email...")
     msg = MIMEMultipart() 
@@ -277,18 +279,27 @@ def updateFile():
 
 while True:
 
-    try:
-        os.system('clear')
-        print('              ____                      __                __         \n   ____ ___  / __ \____ _      ______  / /___  ____ _____/ /__  _____\n  / __ `__ \/ / / / __ \ | /| / / __ \/ / __ \/ __ `/ __  / _ \/ ___/\n / / / / / / /_/ / /_/ / |/ |/ / / / / / /_/ / /_/ / /_/ /  __/ /    \n/_/ /_/ /_/_____/\____/|__/|__/_/ /_/_/\____/\__,_/\__,_/\___/_/     \n')
-        readFile()
+    hour = datetime.datetime.now().hour
 
-    except:
-        # if an error occurs, reset the driver, to try to prevent further interruptions
-        driver.quit()
-        driver = webdriver.Chrome( options = options, executable_path=driverPath)
+    # If it is time to check, do so, and then sleep for an hour 
+    if hour == 4 or hour == 19:
 
-        pass
+        try:
+            os.system('clear')
+            print('              ____                      __                __         \n   ____ ___  / __ \____ _      ______  / /___  ____ _____/ /__  _____\n  / __ `__ \/ / / / __ \ | /| / / __ \/ / __ \/ __ `/ __  / _ \/ ___/\n / / / / / / /_/ / /_/ / |/ |/ / / / / / /_/ / /_/ / /_/ /  __/ /    \n/_/ /_/ /_/_____/\____/|__/|__/_/ /_/_/\____/\__,_/\__,_/\___/_/     \n')
+            readFile()
+
+        except:
+            # if an error occurs, reset the driver, to try to prevent further interruptions
+            driver.quit()
+            driver = webdriver.Chrome( options = options, executable_path=driverPath)
+
+            pass
+
+        time.sleep(3600)
+        print(colored('That is all Folks','green'))
 
     
-    # wait a whole day until you check again
-    time.sleep(86400)
+    
+        
+        

@@ -16,8 +16,8 @@ import sys
 import csv
 import os
 
-userName = 'xxxxxxxxxx'
-password = 'xxxxxxxxxx'
+userName = 'xxxxxxxxxxxx'
+password = 'xxxxxxxxx'
 mangaName = ''
 
 name = ''
@@ -30,10 +30,12 @@ volumeName = ''
 namesList = [None]
 mainLinks = [None]
 lastLinks = [None]
+imagesNames = [None]
 
 namesList = []
 mainLinks = []
 lastLinks = []
+imagesNames = []
 
 
 
@@ -44,9 +46,6 @@ driverPath = '/Applications/chromedriver'
 #Add the headless option
 options = Options()
 options.add_argument('--headless')
-
-print(mainLink)
-driver = webdriver.Chrome( options = options, executable_path=driverPath)
 
 
 def readFile():
@@ -124,6 +123,7 @@ def checkNewVolume():
 def downloadVolume(link):
 
     global volumeName
+    global imagesNames
 
     # Change the directory 
     os.chdir('/Users/pedrocruz/Desktop/MangaDownloader/mangaTest')
@@ -132,8 +132,12 @@ def downloadVolume(link):
     imagexPath = '//*[@id="divImage"]/p[%s]/img'
 
     driver.get(link)
+
     # a list with all the pages' links 
     imgLinks = []
+
+    # Clears the imagesName list for the following part
+    imagesNames = []
 
     # Creates the progrss bar 
     linkBar = IncrementalBar('Gathering the image links', max = 100)
@@ -171,14 +175,26 @@ def downloadVolume(link):
         with open(fileName,'wb') as image:
             image.write(response.content)
         
+        # update the image number and the progress bar
         page+=1
         imageBar.next()
+
+        # Add the filename to the imagesName list, so we can delete it later, so there is no "contamination" in the next volume download
+        imagesNames.append(fileName)
 
     # Create the pdf out of all the png using imagemagick -> for unix systems
     print('\nmaking pdf...')
     formula = 'convert *png "%s.pdf"'%(volumeName)
     os.system(formula)
+
+    # Delete the images, since the pdf was already
+    for file in imagesNames:
+        os.system("rm "+file) 
+
     sendMail()
+
+    # Delete the pdf since it was already sent via email
+    os.system('rm '+volumeName)
 
 def sendMail():
 
@@ -245,7 +261,7 @@ def sendMail():
         
     except Exception as e:
         server.sendmail(userName,userName,e)
-        server.sendmail(userName,userName,volumeName+" was edded but shit happened")
+        server.sendmail(userName,userName,volumeName+" was added but shit happened")
 
     server.quit()
 
@@ -287,18 +303,24 @@ while True:
         try:
             os.system('clear')
             print('              ____                      __                __         \n   ____ ___  / __ \____ _      ______  / /___  ____ _____/ /__  _____\n  / __ `__ \/ / / / __ \ | /| / / __ \/ / __ \/ __ `/ __  / _ \/ ___/\n / / / / / / /_/ / /_/ / |/ |/ / / / / / /_/ / /_/ / /_/ /  __/ /    \n/_/ /_/ /_/_____/\____/|__/|__/_/ /_/_/\____/\__,_/\__,_/\___/_/     \n')
+            
+            # Open the driver and go to the function
+            driver = webdriver.Chrome( options = options, executable_path=driverPath)
             readFile()
+
+            # close the driver
+            driver.quit()
 
         except:
             # if an error occurs, reset the driver, to try to prevent further interruptions
             driver.quit()
-            driver = webdriver.Chrome( options = options, executable_path=driverPath)
+            driver = webdriver.Chrome(options = options, executable_path=driverPath)
 
             pass
 
-        time.sleep(3600)
         print(colored('That is all Folks','green'))
 
+    time.sleep(3600)
     
     
         

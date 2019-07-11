@@ -1,6 +1,7 @@
 # mDownloader
 	•Download and make PDFs from mangas from [KissManga](https://kissmanga.com/).<br/>
 	•Set a raspberry pi to check every day for new volumes, download, make pdf and send to kindle/email automatically.<br/>
+	•It only works on Unix based systems
 
 
 ##Modules
@@ -23,9 +24,8 @@ obs-> You also need to download [chromedriver](http://chromedriver.chromium.org/
 
 ### Unix based System			
 •[Imagemagick ](https://imagemagick.org/index.php)<br/>
-
-	-> Or using the terminal:<br/>
-	`sudo apt install imagemagick`<br/> 
+	-> Or using the terminal:
+	`sudo apt install imagemagick`<br/>
 
 
 

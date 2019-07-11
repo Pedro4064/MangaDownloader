@@ -28,5 +28,5 @@ obs-> You also need to download [chromedriver](http://chromedriver.chromium.org/
 
 
 ## Notes
-	-Make sure you have installed all the necessary libraries
-	-It only works on UNIX based systems(macosx/linux), although you can change the bash commands to the equivalent prompt commads for Windos
+-Make sure you have installed all the necessary libraries
+-It only works on UNIX based systems(macosx/linux), although you can change the bash commands to the equivalent prompt commands for Windows(Don't know if there is an Imagemagick pack for Windows)

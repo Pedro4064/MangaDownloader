@@ -1,5 +1,7 @@
 # mDownloader
-
+•Download and make PDFs from mangas from [KissManga](https://kissmanga.com/)
+•Set a raspberry pi to check every day for new volumes, download, make pdf and send to kindle/email automatically
+•It only works on Unix based systems
 ## Modules
 
 ### Python

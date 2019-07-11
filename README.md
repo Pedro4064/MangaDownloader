@@ -2,8 +2,6 @@
 	•Download and make PDFs from mangas from [KissManga](https://kissmanga.com/).<br/>
 	•Set a raspberry pi to check every day for new volumes, download, make pdf and send to kindle/email automatically.<br/>
 	•It only works on Unix based systems
-
-
 ##Modules
 
 ### Python

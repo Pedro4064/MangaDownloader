@@ -1,8 +1,8 @@
 # mDownloader
-•Download and make PDFs from mangas from [KissManga](https://kissmanga.com/)<br/>
-•Set a raspberry pi to check every day for new volumes, download, make pdf and send to kindle/email automatically<br/>
-•It only works on Unix based systems<br/>
-•You may pass as an argument the number of the volume you wish to start the download from
+•Download and make PDFs from mangas from [KissManga](https://kissmanga.com/).<br/>
+•Set a raspberry pi to check every day for new volumes, download, make pdf and send to kindle/email automatically.<br/>
+•It only works on Unix based systems.<br/>
+•You may pass as an argument the number of the volume you wish to start the download from.
 
 ![Main prompt](https://github.com/Pedro4064/mDownloader/blob/master/Images/Main.png?raw=true)
 ![-h as an argument](https://github.com/Pedro4064/mDownloader/blob/master/Images/-h.png?raw=true)

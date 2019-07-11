@@ -2,6 +2,10 @@
 •Download and make PDFs from mangas from [KissManga](https://kissmanga.com/)<br/>
 •Set a raspberry pi to check every day for new volumes, download, make pdf and send to kindle/email automatically<br/>
 •It only works on Unix based systems<br/>
+•You may pass as an argument the number of the volume you wish to start the download from
+
+![Main prompt](https://github.com/Pedro4064/mDownloader/blob/master/Images/Main.png?raw=true)
+![-h as an argument](https://github.com/Pedro4064/mDownloader/blob/master/Images/-h.png?raw=true)
 ## Modules
 
 ### Python
@@ -28,5 +32,5 @@ obs-> You also need to download [chromedriver](http://chromedriver.chromium.org/
 
 
 ## Notes
--Make sure you have installed all the necessary libraries
--It only works on UNIX based systems(macosx/linux), although you can change the bash commands to the equivalent prompt commands for Windows(Don't know if there is an Imagemagick pack for Windows)
+-Make sure you have installed all the necessary libraries.<br/>
+-It only works on UNIX based systems(macosx/linux), although you can change the bash commands to the equivalent prompt commands for Windows(Don't know if there is an Imagemagick pack for Windows).

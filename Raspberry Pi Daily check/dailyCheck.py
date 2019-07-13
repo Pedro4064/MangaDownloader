@@ -16,6 +16,8 @@ import sys
 import csv
 import os
 
+userName = 'xxxxxxxxxx'
+password = 'xxxxxxxxxx'
 mangaName = ''
 
 name = ''
@@ -202,6 +204,7 @@ def sendMail():
     global volumeName
     global name
 
+    kindle = 'xxxxxxxx'
 
     print("Sending email...")
     msg = MIMEMultipart()

@@ -16,8 +16,6 @@ import sys
 import csv
 import os
 
-userName = 'xxxxxxxxx'
-password = 'xxxxxxxxx'
 mangaName = ''
 
 name = ''
@@ -204,7 +202,6 @@ def sendMail():
     global volumeName
     global name
 
-    kindle = 'xxxxxxxxx'
 
     print("Sending email...")
     msg = MIMEMultipart()
@@ -295,6 +292,13 @@ def updateFile():
 
 while True:
 
+
+    # Clear the lists for the next iteration
+    namesList = []
+    mainLinks = []
+    lastLinks = []
+    
+    # Get the current hour
     hour = datetime.datetime.now().hour
 
     # If it is time to check, do so, and then sleep for an hour

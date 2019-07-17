@@ -16,8 +16,8 @@ import sys
 import csv
 import os
 
-userName = 'xxxxxxxxx'
-password = 'xxxxxxxxx'
+userName = 'xxxxxxxx'
+password = 'xxxxxxxx'
 mangaName = ''
 
 name = ''
@@ -108,7 +108,7 @@ def checkNewVolume():
     for letter in volumeName:
 
         # If the character not in the charactersAllowed string, get rid of it
-        if letter not in charactersAllowed:
+        if letter.casefold() not in charactersAllowed:
             volumeName = volumeName.replace(letter,'')
 
     print(volumeName)
@@ -211,7 +211,7 @@ def sendMail():
     global volumeName
     global name
 
-    kindle = 'xxxxxxxxx'
+    kindle = 'xxxxxxxx'
 
     print("Sending email...")
     msg = MIMEMultipart()

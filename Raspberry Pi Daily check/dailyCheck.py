@@ -16,6 +16,8 @@ import sys
 import csv
 import os
 
+userName = 'xxxxxxxxx'
+password = 'xxxxxxxxx'
 mangaName = ''
 
 name = ''
@@ -86,6 +88,7 @@ def checkNewVolume():
     global volumeName
     global lastLink
     global lastLinks
+    global charactersAllowed
 
     print("Checking for new volumes...")
 
@@ -208,6 +211,7 @@ def sendMail():
     global volumeName
     global name
 
+    kindle = 'xxxxxxxxx'
 
     print("Sending email...")
     msg = MIMEMultipart()

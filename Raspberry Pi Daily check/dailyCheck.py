@@ -16,8 +16,6 @@ import sys
 import csv
 import os
 
-userName = 'xxxxxxxxxx'
-password = 'xxxxxxxxxx'
 mangaName = ''
 
 name = ''
@@ -36,6 +34,8 @@ namesList = []
 mainLinks = []
 lastLinks = []
 imagesNames = []
+
+charactersAllowed = 'qweertyuiopasdfghjklzxcvbnm1234567890-." \''
 
 
 
@@ -102,7 +102,11 @@ def checkNewVolume():
     volumeName = driver.find_element_by_xpath(xPath).text
 
     # Clean the name
-    volumeName = volumeName.replace('~',"").replace('"',"").replace(',','').replace('♡','')
+    for letter in volumeName:
+
+        # If the character not in the charactersAllowed string, get rid of it
+        if letter not in charactersAllowed:
+            volumeName = volumeName.replace(letter,'')
 
     print(volumeName)
 
@@ -204,7 +208,6 @@ def sendMail():
     global volumeName
     global name
 
-    kindle = 'xxxxxxxx'
 
     print("Sending email...")
     msg = MIMEMultipart()

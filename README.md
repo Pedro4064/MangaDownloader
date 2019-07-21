@@ -9,6 +9,8 @@
 ## Modules
 
 ### Python
+  •To install all modules run: <br/>
+   `python -m pip install -r /path/to/requirements.txt`
 
 #### Preinstalled
 •os<br/>
@@ -21,9 +23,10 @@
 •[selenium](https://pypi.org/project/selenium/)<br/>
 •[progressBar](https://progressbar-2.readthedocs.io/en/latest/installation.html)<br/>
 
-obs-> You also need to download [chromedriver](http://chromedriver.chromium.org/downloads)<br/><br/>
-			If you are on the raspberry pi, follow this [instructions](https://www.reddit.com/r/selenium/comments/7341wt/success_how_to_run_selenium_chrome_webdriver_on/) <br/>
+## Chrome Driver
 
+  •You also need to download [chromedriver](http://chromedriver.chromium.org/downloads) to use with selenium module.<br/> 
+  *If you are on the raspberry pi, follow this [instructions](https://www.reddit.com/r/selenium/comments/7341wt/success_how_to_run_selenium_chrome_webdriver_on/). <br/>
 ### Unix based System			
 •[Imagemagick ](https://imagemagick.org/index.php)<br/>
 	-> Or using the terminal:

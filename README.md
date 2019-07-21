@@ -21,7 +21,7 @@
 #### Needs to be installed separately  
 •[termcolor](https://pypi.org/project/termcolor/)<br/>
 •[selenium](https://pypi.org/project/selenium/)<br/>
-•[progressBar](https://progressbar-2.readthedocs.io/en/latest/installation.html)<br/>
+•[progress](https://pypi.org/project/progress/)<br/>
 
 ## Chrome Driver
 

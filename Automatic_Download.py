@@ -36,7 +36,7 @@ if len(sys.argv)!=1:
         quit()
 
 #Specifies the direcotry of the webdriver
-driver = webdriver.Chrome('/Applications/chromedriver')
+driver = webdriver.Chrome('/usr/lib/chromium-browser/chromedriver')
 
 
 #Creates lists used as reference
@@ -91,7 +91,7 @@ def GatherVolumeLinks(mainLink,nLinks):
     driver.get(mainLink)
 
     #Wait for it to load
-    time.sleep(15)
+    time.sleep(20)
 
     #Creates a progress bar so the user can check progress
     print('\n')
@@ -104,6 +104,8 @@ def GatherVolumeLinks(mainLink,nLinks):
         i+=3
         #Get the volume links available on the page
         volLinks.append(driver.find_element_by_xpath(xPath%(i)).get_attribute('href'))
+        print(driver.find_element_by_xpath(xPath%(i)).get_attribute('href'))
+        
         #updates the progress bar
         volBar.next()
 
@@ -182,18 +184,20 @@ def GatherImagesLinks():
                     #update the progress bar
                     linkBar.next()
 
-                except:
+                except Exception as e:
 
                     #update the progress bar and continue
                     linkBar.next()
+                    print(e)
                     continue
 
-        except:
+        except Exception as e:
             error.append(link)
 
             #Closes the dirver and summons it againf to prevent future failures
             driver.quit()
-            driver = webdriver.Chrome('/Applications/chromedriver')
+            driver = webdriver.Chrome('/usr/lib/chromium-browser/chromedriver')
+            print(e)
 
 
         downloadImages()

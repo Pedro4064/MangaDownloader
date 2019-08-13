@@ -37,7 +37,7 @@ if len(sys.argv)!=1:
         quit()
 
 #Specifies the direcotry of the webdriver
-driverPath = '/Applications/chromedriver'
+driverPath = '/usr/lib/chromium-browser/chromedriver'
 #Add the headless option
 options = Options()
 options.add_argument('--headless')
@@ -132,6 +132,7 @@ def GatherImagesLinks():
     global seriesName
     global driver
     global fCounter
+    global driverPath
 
 
     os.system('clear')
@@ -203,7 +204,7 @@ def GatherImagesLinks():
 
             #Closes the dirver and summons it againf to prevent future failures
             driver.quit()
-            driver = webdriver.Chrome('/Applications/chromedriver')
+            driver = webdriver.Chrome(driverPath)
 
 
         downloadImages()

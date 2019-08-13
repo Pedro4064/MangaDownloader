@@ -81,8 +81,8 @@ def readFile():
             namesList.append(line[0])
             mainLinks.append(line[1])
             
-        # Call the check Function
-        checkNewVolume()  
+            # Call the check Function
+            checkNewVolume()  
 
         #update the info file
         updateFile()  

@@ -26,25 +26,20 @@ lastLink = ''
 
 volumeName = ''
  
-# Creates the lists and then clean them, since you can't create empty lists in python
-namesList = [None]
-mainLinks = [None]
-lastLinks = [None]
-imagesNames = [None]
-
-namesList = []
-mainLinks = []
-lastLinks = []
+# Creates the lists and then clean them
 imagesNames = []
+mangas = []
 
 charactersAllowed = 'qweertyuiopasdfghjklzxcvbnm1234567890-." \''
 
 
 #Specifies the direcotry of the webdriver
-driverPath = '/usr/lib/chromium-browser/chromedriver'
+# driverPath = '/usr/lib/chromium-browser/chromedriver'
+driverPath = '/Applications/chromedriver'
 
 # The path to the info file
-infoPath = '/home/pi/Desktop/mDownloader/info.csv'
+# infoPath = '/home/pi/Desktop/mDownloader/info.csv'
+infoPath = '/Users/pedrocruz/Desktop/Programming/Python/Git/MangaDownloader/info.csv'
 
 #Add the headless option
 options = Options()
@@ -52,6 +47,17 @@ options.add_argument('--headless')
 
 print(mainLink)
 
+
+# Creates the manga Class to store all the necessary values
+class manga:
+    
+    def __init__(self,**kwargs):
+
+        self.name = kwargs.get('name','manga')
+        self.mainUrl = kwargs.get('mainUrl')
+        self.lastUrl = kwargs.get('lastUrl')
+
+    
 
 
 def readFile():
@@ -65,11 +71,11 @@ def readFile():
         for line in info:
     
             global name
+            global mangas
             global mainLink
             global lastLink
-            global namesList
-            global mainLinks
-
+            
+            
 
     
 
@@ -77,70 +83,68 @@ def readFile():
             mainLink = line[1]
             lastLink = line[2]
 
-            # Add the info to the lists so it can be updated afterwards
-            namesList.append(line[0])
-            mainLinks.append(line[1])
+            # Creates a new instance of the manga class, them add it to the mangas list with its info
+            mangas.append(manga(name = name, mainUrl = mainLink, lastUrl = lastLink))        
             
-            # Call the check Function
-            checkNewVolume()  
-
-        #update the info file
-        updateFile()  
 
 def checkNewVolume():
 
-    global volumeName
-    global lastLink
-    global lastLinks
+    global mangas
+    global volumeName 
     global charactersAllowed
 
-    print("Checking for new volumes...")
+    print("Checking for new volumes...\n")
 
-    #Declare strings used to scrape the site
-    xPath  = '//*[@id="leftside"]/div[2]/div[2]/div[2]/table/tbody/tr[3]/td[1]/a'
-    
-    # go to the main link
-    driver.get(mainLink)
-
-    time.sleep(15)
-
-    # save the link found so it can compre it to the one in the csv file
-    latestLink = driver.find_element_by_xpath(xPath).get_attribute('href')
-    volumeName = driver.find_element_by_xpath(xPath).text
-
-    # Clean the name
-    for letter in volumeName:
+    for series in mangas:
+            
+        #Declare strings used to scrape the site
+        xPath  = '//*[@id="leftside"]/div[2]/div[2]/div[2]/table/tbody/tr[3]/td[1]/a'
         
-        # If the character not in the charactersAllowed string, get rid of it
-        try:
-            if letter.casefold() not in charactersAllowed:
-                volumeName = volumeName.replace(letter,'')
+        # go to the main link
+        driver.get(series.mainUrl)
 
-        except Exception as e:
-            print(e)
+        time.sleep(15)
 
-    print(volumeName)
-    
+        # save the link found so it can compre it to the one in the csv file
+        latestLink = driver.find_element_by_xpath(xPath).get_attribute('href')
+        volumeName = driver.find_element_by_xpath(xPath).text
 
-    # check if the newest link is the last downloaded volume, if no, it means it is a new volume
-    if latestLink == lastLink:
-        print('All uptodate')
+        # Clean the name
+        for letter in volumeName:
+            
+            # If the character not in the charactersAllowed string, get rid of it
+            try:
+                if letter.casefold() not in charactersAllowed:
+                    volumeName = volumeName.replace(letter,'')
 
-        lastLinks.append(latestLink)
+            except Exception as e:
+                print(e)
 
-    else:
-        print('Downloading the new file')
-        # Add the last link to the list so it can be transffered to the info.csv file
-        lastLinks.append(latestLink)
-        print(latestLink)
-        downloadVolume(latestLink)
+        print(volumeName)
+        
+
+        # check if the newest link is the last downloaded volume, if not, it means it is a new volume
+        if latestLink == series.lastUrl:
+            print('All uptodate\n')
+
+            
+
+        else:
+            print('Downloading the new file')
+            
+            # Updates the instance's lastUrl
+            series.lastUrl = latestLink
+
+            print(latestLink)
+            downloadVolume(latestLink)
 
 def downloadVolume(link):
 
     global volumeName
 
     # Change the directory 
-    os.chdir('/media/pi/PEDRO CRUZ')
+    # os.chdir('/media/pi/PEDRO CRUZ')
+    os.chdir('/Users/pedrocruz/Desktop/t')
 
     print("Downloading new volume")
     imagexPath = '//*[@id="divImage"]/p[%s]/img'
@@ -209,7 +213,7 @@ def downloadVolume(link):
     sendMail()
 
     # Delete the pdf since it was already sent
-    os.system('rm '+volumeName)
+    os.system('rm '+'"'+volumeName+'"')
 
 def sendMail():
 
@@ -279,64 +283,68 @@ def sendMail():
 
 def updateFile():
 
-    global namesList
-    global lastLinks
-    global mainLinks
+    
     global infoPath
     
-    print(namesList,lastLinks,mainLinks)
+    
     # Creates the progress bar 
-    savingBar = IncrementalBar("Saving file",max = len(namesList))
+    savingBar = IncrementalBar("Saving file",max = len(mangas))
 
 
     # Opens the file, write mode
     with open(infoPath,'w',newline ='') as file:
         info = csv.writer(file,delimiter = ',')
 
-        counter = 0
-        for name in namesList:
-            info.writerow([name,mainLinks[counter],lastLinks[counter]])
-            counter+=1
+        
+        for series in mangas:
+
+            info.writerow([series.name,series.mainUrl,series.lastUrl])
             savingBar.next()
         
         print(colored("File saved","green"))
 
+def logo():
+    print('              ____                      __                __         \n   ____ ___  / __ \____ _      ______  / /___  ____ _____/ /__  _____\n  / __ `__ \/ / / / __ \ | /| / / __ \/ / __ \/ __ `/ __  / _ \/ ___/\n / / / / / / /_/ / /_/ / |/ |/ / / / / / /_/ / /_/ / /_/ /  __/ /    \n/_/ /_/ /_/_____/\____/|__/|__/_/ /_/_/\____/\__,_/\__,_/\___/_/     \n')
 
 
 while True:
 
-    # Clear the lists
-    namesList = []
-    mainLinks = []
-    lastLinks = []
+    # Clear the list
+    mangas = []
 
     #Get the current hour
     hour = datetime.datetime.now().hour
     
     os.system("clear")
-    print('              ____                      __                __         \n   ____ ___  / __ \____ _      ______  / /___  ____ _____/ /__  _____\n  / __ `__ \/ / / / __ \ | /| / / __ \/ / __ \/ __ `/ __  / _ \/ ___/\n / / / / / / /_/ / /_/ / |/ |/ / / / / / /_/ / /_/ / /_/ /  __/ /    \n/_/ /_/ /_/_____/\____/|__/|__/_/ /_/_/\____/\__,_/\__,_/\___/_/     \n')
-    
+    logo()    
 
     # If it is time to check, do so, and then sleep for an hour 
     if hour == 4 or hour == 19:
 
         try:
             os.system('clear')
-            print('              ____                      __                __         \n   ____ ___  / __ \____ _      ______  / /___  ____ _____/ /__  _____\n  / __ `__ \/ / / / __ \ | /| / / __ \/ / __ \/ __ `/ __  / _ \/ ___/\n / / / / / / /_/ / /_/ / |/ |/ / / / / / /_/ / /_/ / /_/ /  __/ /    \n/_/ /_/ /_/_____/\____/|__/|__/_/ /_/_/\____/\__,_/\__,_/\___/_/     \n')
+            logo()
 
             # Open the driver and go to the function
             driver = webdriver.Chrome( options = options, executable_path=driverPath)
+
             readFile()
+            checkNewVolume()
+            updateFile()
+
+
 
             # close the driver
             driver.quit()
 
         except Exception as e:
-            # if an error occurs, reset the driver, to try to prevent further interruptions
+            # if an error occurs, reset the driver, to try to prevent further interruptions, and save the file just in case
             driver.quit()
             driver = webdriver.Chrome( options = options, executable_path=driverPath)
+
+            updateFile()
             print(e)
-            pass
+            continue
 
         print(colored('That is all Folks','green'))
     

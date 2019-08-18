@@ -34,12 +34,12 @@ charactersAllowed = 'qweertyuiopasdfghjklzxcvbnm1234567890-." \''
 
 
 #Specifies the direcotry of the webdriver
-# driverPath = '/usr/lib/chromium-browser/chromedriver'
-driverPath = '/Applications/chromedriver'
+driverPath = '/usr/lib/chromium-browser/chromedriver'
+
 
 # The path to the info file
-# infoPath = '/home/pi/Desktop/mDownloader/info.csv'
-infoPath = '/Users/pedrocruz/Desktop/Programming/Python/Git/MangaDownloader/info.csv'
+infoPath = '/home/pi/Desktop/mDownloader/info.csv'
+
 
 #Add the headless option
 options = Options()
@@ -143,8 +143,8 @@ def downloadVolume(link):
     global volumeName
 
     # Change the directory 
-    # os.chdir('/media/pi/PEDRO CRUZ')
-    os.chdir('/Users/pedrocruz/Desktop/t')
+    os.chdir('/media/pi/PEDRO CRUZ')
+    
 
     print("Downloading new volume")
     imagexPath = '//*[@id="divImage"]/p[%s]/img'

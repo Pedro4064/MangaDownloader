@@ -2,6 +2,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
 from progress.bar import IncrementalBar
 from termcolor import colored
+import json
 
 import smtplib 
 from email.mime.multipart import MIMEMultipart 
@@ -38,7 +39,7 @@ driverPath = '/usr/lib/chromium-browser/chromedriver'
 
 
 # The path to the info file
-infoPath = '/home/pi/Desktop/mDownloader/info.csv'
+infoPath = '/home/pi/Desktop/mDownloader/manga.json'
 
 
 #Add the headless option
@@ -64,11 +65,13 @@ def readFile():
 
     print("Reading file")
     
-    # open the csv file on the mDownloader
+    # open the json file on the mDownloader
     with open(infoPath,'r') as file:
-        info = csv.reader(file,delimiter = ',')
+        
+        # get the json data and make it into a list of dictionaries
+        data = json.loads(file.read())
 
-        for line in info:
+        for manga in data:
     
             global name
             global mangas
@@ -79,14 +82,13 @@ def readFile():
 
     
 
-            name = line[0]
-            mainLink = line[1]
-            lastLink = line[2]
+            name = manga.get('title')
+            mainLink = manga.get('mainURL')
+            lastLink = manga.get('lastURL')
 
             # Creates a new instance of the manga class, them add it to the mangas list with its info
             mangas.append(manga(name = name, mainUrl = mainLink, lastUrl = lastLink))        
             
-
 def checkNewVolume():
 
     global mangas
@@ -287,19 +289,16 @@ def updateFile():
     global infoPath
     
     
-    # Creates the progress bar 
-    savingBar = IncrementalBar("Saving file",max = len(mangas))
+    # tell the user the file is being saved 
+    print('The json file is being saved')
+    
 
 
     # Opens the file, write mode
-    with open(infoPath,'w',newline ='') as file:
-        info = csv.writer(file,delimiter = ',')
-
-        
-        for series in mangas:
-
-            info.writerow([series.name,series.mainUrl,series.lastUrl])
-            savingBar.next()
+    with open(infoPath,'w') as file:
+    
+        # dumps the list of dictionary in the json file with 4 as indent
+        file.write(json.dumps(mangas,indent=4))
         
         print(colored("File saved","green"))
 

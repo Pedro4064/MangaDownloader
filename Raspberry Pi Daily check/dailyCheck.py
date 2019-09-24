@@ -39,7 +39,7 @@ driverPath = '/usr/lib/chromium-browser/chromedriver'
 
 
 # The path to the info file
-infoPath = '/home/pi/Desktop/mDownloader/manga.json'
+infoPath = '/home/pi/Desktop/mDownloader/"Raspberry Pi Daily check"/manga.json'
 
 
 #Add the headless option
@@ -86,6 +86,7 @@ def readFile():
             mainLink = manga.get('mainURL')
             lastLink = manga.get('lastURL')
 
+            print(name,mainLink, lastLink)
             # Creates a new instance of the manga class, them add it to the mangas list with its info
             mangas.append(manga(name = name, mainUrl = mainLink, lastUrl = lastLink))        
             

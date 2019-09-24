@@ -50,7 +50,7 @@ print(mainLink)
 
 
 # Creates the manga Class to store all the necessary values
-class manga:
+class Manga:
     
     def __init__(self,**kwargs):
 
@@ -88,7 +88,7 @@ def readFile():
 
             print(name,mainLink, lastLink)
             # Creates a new instance of the manga class, them add it to the mangas list with its info
-            mangas.append(manga(name = name, mainUrl = mainLink, lastUrl = lastLink))        
+            mangas.append(Manga(name = name, mainUrl = mainLink, lastUrl = lastLink))        
             
 def checkNewVolume():
 

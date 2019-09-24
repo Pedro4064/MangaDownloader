@@ -66,7 +66,7 @@ def readFile():
     print("Reading file")
     
     # open the json file on the mDownloader
-    with open(infoPath,'r') as file:
+    with open('manga.json','r') as file:
         
         # get the json data and make it into a list of dictionaries
         data = json.loads(file.read())

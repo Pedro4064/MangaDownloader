@@ -39,7 +39,7 @@ driverPath = '/usr/lib/chromium-browser/chromedriver'
 
 
 # The path to the info file
-infoPath = '/home/pi/Desktop/mDownloader/"Raspberry Pi Daily check"/manga.json'
+infoPath = '/home/pi/Desktop/mDownloader/Raspberry Pi Daily check/manga.json'
 
 
 #Add the headless option

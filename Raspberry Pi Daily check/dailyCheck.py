@@ -319,7 +319,7 @@ while True:
     logo()    
 
     # If it is time to check, do so, and then sleep for an hour 
-    if hour == 4 or hour == 19:
+    if hour == 4 or hour == 19 or hour == 20:
 
         try:
             os.system('clear')

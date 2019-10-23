@@ -159,7 +159,7 @@ class kissManga(webdriver.Chrome,webdriver.chrome.options.Options,webdriver.comm
 
         
         # make the pdf
-        command = 'convert *.png '+title+'.pdf'
+        command = 'convert *.png '+'"'+ title+'"'+ '.pdf'
         os.system(command)
 
         # return the name of the pdf file
@@ -213,17 +213,26 @@ class kissManga(webdriver.Chrome,webdriver.chrome.options.Options,webdriver.comm
         # Make a directory for each chapter and download it
         for chapter in formatted_data:
 
-            # make a directory with the chapter's name and change to it
+            # make a directory with the chapter's name 
             target_directory = chapter.get('title')
             
-            os.mkdir(target_directory)
+            # try, if it exists just continue
+            try:
+                os.mkdir(target_directory)
+            except:
+                print('Directory already exists')
+
+            # change to it
             os.chdir(target_directory)
+            
+            
+                
 
             # Download the chapter
             new_pdf = self.download_pages(chapter, average_page_number=average_page_number)
 
             # move the pdf to the pdf_directory
-            command = 'mv '+new_pdf+' '+pdf_directory 
+            command = 'mv '+'"'+new_pdf+'"'+' '+pdf_directory 
             os.system(command)
 
             # Go back to the raw_directory

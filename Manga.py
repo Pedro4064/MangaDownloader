@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support import expected_conditions
+from termcolor import colored
 import requests
 import json
 import time
@@ -161,6 +162,7 @@ class kissManga(webdriver.Chrome,webdriver.chrome.options.Options,webdriver.comm
         # make the pdf
         command = 'convert *.png '+'"'+ title+'"'+ '.pdf'
         os.system(command)
+        print('\n\n\n\nPDF DONE\n\n\n\n')
 
         # return the name of the pdf file
         return title+'.pdf'
@@ -204,7 +206,7 @@ class kissManga(webdriver.Chrome,webdriver.chrome.options.Options,webdriver.comm
             os.mkdir(pdf_directory)
         
         except:
-            print('Directory already exists')
+            print(colored('Directory already exists', 'yellow'))
             pass
 
         # Change to raw_directory
@@ -213,6 +215,9 @@ class kissManga(webdriver.Chrome,webdriver.chrome.options.Options,webdriver.comm
         # Make a directory for each chapter and download it
         for chapter in formatted_data:
 
+            message = 'Downloadign '+chapter.get('title')+'\n\n\n'
+            print(colored(message, 'green'))
+
             # make a directory with the chapter's name 
             target_directory = chapter.get('title')
             
@@ -220,7 +225,7 @@ class kissManga(webdriver.Chrome,webdriver.chrome.options.Options,webdriver.comm
             try:
                 os.mkdir(target_directory)
             except:
-                print('Directory already exists')
+                print(colored('Directory already exists', 'yellow'))
 
             # change to it
             os.chdir(target_directory)
@@ -237,15 +242,73 @@ class kissManga(webdriver.Chrome,webdriver.chrome.options.Options,webdriver.comm
 
             # Go back to the raw_directory
             os.chdir(raw_directory)
-        
+
+ 
+# print the logo
+def logo():
+    print('              ____                      __                __         \n   ____ ___  / __ \____ _      ______  / /___  ____ _____/ /__  _____\n  / __ `__ \/ / / / __ \ | /| / / __ \/ / __ \/ __ `/ __  / _ \/ ___/\n / / / / / / /_/ / /_/ / |/ |/ / / / / / /_/ / /_/ / /_/ /  __/ /    \n/_/ /_/ /_/_____/\____/|__/|__/_/ /_/_/\____/\__,_/\__,_/\___/_/     \n')
+
+def komiLogo():
+
+    komi = """⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣠⣤⣤⣶⣶⣶⣶⣶⣦⣤⣤⣄⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣠⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡴⣻⣽⣿⣿⣿⣿⣿⣿⡿⣿⣿⡿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⡾⠋⣸⣿⣿⣿⣿⣿⣿⠟⠁⢀⣿⣿⡀⣟⣿⣿⣿⠿⣿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⢋⣾⣾⣿⣿⣯⡿⣽⡟⠁⠀⠀⠘⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⣼⣿⣿⣿⣿⣿⣿⠿⠿⣿⣿⣷⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⠃⣾⣿⣿⣿⣿⣿⣿⠏⠀⠀⠀⠀⠀⠙⣟⢿⣿⣿⣿⣿⣿⣿⡌⠿⣿⣿⣿⣿⣿⡷⣦⣄⢹⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    All Done!!!!            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⣿⣿⣿⣿⣿⣿⠏⠀⡠⠖⠛⠉⠉⠙⠛⠦⠀⠈⠙⠛⠛⠿⠛⠛⠉⠉⠛⠛⢿⣧⠘⣿⣿⣿⡏⡀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⣿⣿⣿⣿⣿⡟⠀⠞⠀⢀⣴⣿⣿⣶⡄⠀⠀⠀⠀⠀⠀⠀⢠⣶⣿⣿⣶⡀⠀⠹⡄⢸⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠩⠛⢿⣿⣿⣇⠀⠀⠀⢸⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⡇⠀⠀⠀⠀⣿⣿⣿⡁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⢹⣿⣿⡏⠁⠀⠀⠀⠙⠛⠛⠛⠁⠀⠀⠀⠀⠀⠀⠀⡈⠙⠛⠛⠋⠀⠀⠀⠀⠀⠈⣠⣄⠀⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣼⣿⣿⡇⠀⠀⠀⠁⠒⠀⠀⠂⠁⠀⠀⠀⠀⠀⠀⠀⠀⠐⠀⠀⠒⠈⠀⠀⠀⠀⣐⠀⠁⢀⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⠛⠊⣀⠞⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⣶⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣿⡿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣶⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣶⣿⣿⣿⡇⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠙⢿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⣤⡄⠀⠀⠀⣠⣤⣶⣾⣿⣿⣿⣿⣿⣿⡿⢃⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣤⣄⡿⠁⣿⠛⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣛⣻⣏⣁⢸⠸⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⡇⣸⣿⣿⣿⣿⣿⣿⣿⡟⠁⡇⠀⠀⠀⣿⠈⢻⣿⣿⣿⣿⣿⣿⣿⣿⣾⡄⢇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣧⣿⣿⣿⣿⠿⠿⢛⠏⠀⠀⠸⡀⠀⢠⠇⠀⠀⠹⡛⠻⠿⣿⣿⣿⣿⣿⣷⠸⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⠛⠋⠉⠀⠀⠀⡌⠀⠀⠀⠀⠳⣀⠏⢀⠀⠀⠀⢱⠀⠀⠀⠈⠉⠛⣿⣿⡆⢧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⣿⣿⣧⠂⠀⠀⠀⠀⣜⡠⣴⣶⢥⣍⠲⡋⠒⣡⣼⣳⢢⣄⣣⠀⠀⠀⠀⠀⠘⣿⣷⢸⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⣿⣿⣿⣿⡘⡀⠀⠀⠀⢠⢣⢣⢿⣏⣞⣿⣹⡿⣽⣻⣻⣣⢻⡇⠀⠀⠀⢠⠁⠀⢹⣿⣾⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⠷⠥⡀⠀⠀⠘⡞⡎⡞⣟⡿⡟⠉⢿⣷⣣⢧⢻⣻⠁⠀⠀⢀⠂⠀⠀⠀⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"""
+
+    print(komi)
+   
 if __name__ == '__main__':
 
+    # prompt the user for input
+    os.system('clear')
+    logo()
+    
+    print('\n\n')
+
+    main_url = input('•The main Url - ')
+    n_chapters = int(input('•An Estimate of the number of chapters - '))
+    n_pages = int(input('•An average number of pages per chapter - '))
+    s_name = input('•The manga name - ')
+    f_chapter = input('•The chapter you want to start the download from (enter ⏎ if you want to start from the first one) - ')
+    l_chapter = input('•The last chapter you want download (enter ⏎ if you want to download up until the last one) - ')
+    d_path = input('•The directory you wish to save the files - ')
+
+    # Check to see if any chapters were passed, if no, make the variables None
+    if f_chapter == '':
+        f_chapter = None
+    
+    if l_chapter == '':
+        l_chapter = None
+
     manga = kissManga()
-    chapters = manga.get_chapters(main_url='https://kissmanga.com/Manga/Komi-san-wa-Komyushou-Desu', number_of_chapters=224)
+    chapters = manga.get_chapters(main_url=main_url, number_of_chapters=n_chapters)
     
     # print(json.dumps(chapters, indent=4))
 
-    manga.download_chapters(chapters_data= chapters,directory='/Users/pedrocruz/Desktop/Komi' ,average_page_number=50, series_name= 'Komi-san' ,starting_chapter='Komi-san wa Komyushou Desu. Ch.001')
+    manga.download_chapters(chapters_data = chapters, directory = d_path, average_page_number = n_pages, series_name= s_name, starting_chapter=f_chapter,last_chapter=l_chapter)
 
     # clean up
     manga.close_webdriver()
+
+    komiLogo()

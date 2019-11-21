@@ -94,6 +94,7 @@ def checkNewVolume():
 
     global mangas
     global volumeName 
+    global name
     global charactersAllowed
 
     print("Checking for new volumes...\n")
@@ -102,6 +103,9 @@ def checkNewVolume():
             
         #Declare strings used to scrape the site
         xPath  = '//*[@id="leftside"]/div[2]/div[2]/div[2]/table/tbody/tr[3]/td[1]/a'
+        
+        # update name 
+        name = series.name
         
         # go to the main link
         driver.get(series.mainUrl)
@@ -288,6 +292,7 @@ def updateFile():
 
     
     global infoPath
+    global mangas
     
     
     # tell the user the file is being saved 
@@ -299,6 +304,7 @@ def updateFile():
     with open(infoPath,'w') as file:
     
         # dumps the list of dictionary in the json file with 4 as indent
+        data = [{'title':series.name,'mainURL':series.mainUrl, 'lastURL': series.lastUrl} for series in mangas]
         file.write(json.dumps(mangas,indent=4))
         
         print(colored("File saved","green"))

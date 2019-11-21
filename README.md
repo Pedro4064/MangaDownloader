@@ -1,44 +1,46 @@
-# mDownloader
+# MangaDownloader
 
-## [mDownloader.py]()
+## [Manga.py](Manga.py)
 •Download and make PDFs from mangas from [KissManga](https://kissmanga.com/).<br/>
-•It only works on Unix based systems.<br/>
-•You may pass as an argument the number of the volume you wish to start the download from.
+•You can determine the first and last chapter you wish to download.
 
-![Main prompt](https://github.com/Pedro4064/mDownloader/blob/master/Images/Main.png?raw=true)
-![-h as an argument](https://github.com/Pedro4064/mDownloader/blob/master/Images/-h.png?raw=true)
+![Main prompt](https://raw.githubusercontent.com/Pedro4064/MangaDownloader/develop/gitDemonstration.gif)
+
 
 ## [dailyCheck.py](https://github.com/Pedro4064/MangaDownloader/blob/master/Raspberry%20Pi%20Daily%20check/dailyCheck.py)
 •Set a raspberry pi to check every day for new volumes, download them, make a pdf and send to kindle/email automatically.<br/>
-•It uses a csv file (info.csv) to get the last volume's info and update it once it downloades the latest chapter.<br/>
+•It uses a [json file](https://github.com/Pedro4064/MangaDownloader/blob/develop/Raspberry%20Pi%20Daily%20check/manga.json) to get the last volume's info and update it once it downloades the latest chapter.<br/>
 
-•The csv file has the following structure:
-
-
-|Title|kissmanga series' main link|Latest volume's link|
-|-----|--------------------------|---------------------|
+•The json file has the following structure:
 
 
+|title|mainURL|lastURL|
+|-----|-------|-------|
 
-example-> [info.csv](https://github.com/Pedro4064/MangaDownloader/blob/master/Raspberry%20Pi%20Daily%20check/info.csv)
+
+
+example-> [manga.json](https://github.com/Pedro4064/MangaDownloader/blob/develop/Raspberry%20Pi%20Daily%20check/manga.json)
 
 
 ## Modules
 
 ### Python
   •To install all modules run: <br/>
-   `python -m pip install -r /path/to/requirements.txt`
+   `python -m pip install -r /path/to/requirements.txt`<br/>
+   
+-[requirements.txt](requirements.txt)
 
 #### Preinstalled
 •os<br/>
 •time<br/>
-•sys<br/>
+•jsons<br/>
 •requests<br/>
 
 #### Needs to be installed separately  
 •[termcolor](https://pypi.org/project/termcolor/)<br/>
 •[selenium](https://pypi.org/project/selenium/)<br/>
-•[progress](https://pypi.org/project/progress/)<br/>
+•[requests](https://pypi.org/project/requests/2.7.0/)<br/>
+
 
 ## Chrome Driver
 
@@ -54,4 +56,4 @@ example-> [info.csv](https://github.com/Pedro4064/MangaDownloader/blob/master/Ra
 ## Notes
 -Change the `driverPath = '/Applications/chromedriver'` to fit the location of the webDriver in your system.<br/>
 -Make sure you have installed all the necessary libraries.<br/>
--It only works on UNIX based systems(macosx/linux), although you can change the bash commands to the equivalent prompt commands for Windows(Don't know if there is an Imagemagick pack for Windows).
+-If you are on windows, you will need to change the bash commands to their equivalent on your system. You will also need to download and install Imagemagick separately.

@@ -4,12 +4,12 @@
 •Download and make PDFs from mangas from [KissManga](https://kissmanga.com/).<br/>
 •You can determine the first and last chapter you wish to download.
 
-![Main prompt](https://raw.githubusercontent.com/Pedro4064/MangaDownloader/develop/gitDemonstration.gif)
+![Main prompt](https://raw.githubusercontent.com/Pedro4064/MangaDownloader/master/gitDemonstration.gif)
 
 
 ## [dailyCheck.py](https://github.com/Pedro4064/MangaDownloader/blob/master/Raspberry%20Pi%20Daily%20check/dailyCheck.py)
 •Set a raspberry pi to check every day for new volumes, download them, make a pdf and send to kindle/email automatically.<br/>
-•It uses a [json file](https://github.com/Pedro4064/MangaDownloader/blob/develop/Raspberry%20Pi%20Daily%20check/manga.json) to get the last volume's info and update it once it downloades the latest chapter.<br/>
+•It uses a [json file](https://github.com/Pedro4064/MangaDownloader/blob/master/Raspberry%20Pi%20Daily%20check/manga.json) to get the last volume's info and update it once it downloades the latest chapter.<br/>
 
 •The json file has the following structure:
 
@@ -19,7 +19,7 @@
 
 
 
-example-> [manga.json](https://github.com/Pedro4064/MangaDownloader/blob/develop/Raspberry%20Pi%20Daily%20check/manga.json)
+example-> [manga.json](https://github.com/Pedro4064/MangaDownloader/blob/master/Raspberry%20Pi%20Daily%20check/manga.json)
 
 
 ## Modules

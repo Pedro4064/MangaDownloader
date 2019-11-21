@@ -1,6 +1,6 @@
-# mDownloader
+# MangaDownloader
 
-## [mDownloader.py]()
+## [Manga.py](Manga.py)
 •Download and make PDFs from mangas from [KissManga](https://kissmanga.com/).<br/>
 •You can determine the first and last chapter you wish to download.
 
@@ -26,17 +26,20 @@ example-> [manga.json](https://github.com/Pedro4064/MangaDownloader/blob/develop
 
 ### Python
   •To install all modules run: <br/>
-   `python -m pip install -r /path/to/requirements.txt`
+   `python -m pip install -r /path/to/requirements.txt`<br/>
+   
+-[requirements.txt](requirements.txt)
 
 #### Preinstalled
 •os<br/>
 •time<br/>
-•sys<br/>
+•jsons<br/>
 •requests<br/>
 
 #### Needs to be installed separately  
 •[termcolor](https://pypi.org/project/termcolor/)<br/>
 •[selenium](https://pypi.org/project/selenium/)<br/>
+•[requests](https://pypi.org/project/requests/2.7.0/)<br/>
 
 
 ## Chrome Driver

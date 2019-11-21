@@ -29,7 +29,8 @@ class kissManga(webdriver.Chrome,webdriver.chrome.options.Options,webdriver.comm
         # close the webdriver
         self.driver.quit()
 
-    def wait_for_element(self,element_xPath:'xPath for element'):
+    def __wait_for_element(self,element_xPath:'xPath for element'):        
+        # Private method, to be used only by other methods of class, not by users
 
         try:
             ok = self.wait.until(webdriver.support.expected_conditions.visibility_of_element_located((webdriver.common.by.By.XPATH, element_xPath)))
@@ -52,7 +53,7 @@ class kissManga(webdriver.Chrome,webdriver.chrome.options.Options,webdriver.comm
             self.driver.get(main_url)
 
             # wait for the first element to load, if it does not load, retry
-            if self.wait_for_element('//*[@id="leftside"]/div[2]/div[2]/div[2]/table/tbody/tr[3]/td[1]/a'):
+            if self.__wait_for_element('//*[@id="leftside"]/div[2]/div[2]/div[2]/table/tbody/tr[3]/td[1]/a'):
                 loaded = True
 
             else:
@@ -97,8 +98,9 @@ class kissManga(webdriver.Chrome,webdriver.chrome.options.Options,webdriver.comm
         # return the list with the data
         return chapters
 
-    def download_pages(self, chapter_data, average_page_number):
+    def download_pages(self, chapter_data:'json data containing its title and url', average_page_number):
 
+        # Parse the json data
         title = chapter_data.get('title')
         main_url = chapter_data.get('url')
 
@@ -113,7 +115,7 @@ class kissManga(webdriver.Chrome,webdriver.chrome.options.Options,webdriver.comm
             self.driver.get(main_url)
 
             # wait for the first page to load, if it does, exit the loop
-            if self.wait_for_element('//*[@id="divImage"]/p[1]/img'):
+            if self.__wait_for_element('//*[@id="divImage"]/p[1]/img'):
                 loaded = True
 
         # Wait for 3 seconds to make sure the other pages will load as well
@@ -122,6 +124,7 @@ class kissManga(webdriver.Chrome,webdriver.chrome.options.Options,webdriver.comm
         # Tries to get the average number page for the series +50 pages 
         number_of_pages = average_page_number+50
 
+        # Get the url for each page
         for page in range(number_of_pages):
             
             # Try to find the element
@@ -134,6 +137,7 @@ class kissManga(webdriver.Chrome,webdriver.chrome.options.Options,webdriver.comm
             
             except:
                 continue
+
 
         # Download all the pages 
         for page_number,url in enumerate(pages):
@@ -164,7 +168,7 @@ class kissManga(webdriver.Chrome,webdriver.chrome.options.Options,webdriver.comm
         os.system(command)
         print('\n\n\n\nPDF DONE\n\n\n\n')
 
-        # return the name of the pdf file
+        # return the name of the pdf file, it will be moved to the correct directory
         return title+'.pdf'
     
     def download_chapters(self,chapters_data,directory,average_page_number,series_name,starting_chapter = None ,last_chapter = None):
@@ -229,12 +233,10 @@ class kissManga(webdriver.Chrome,webdriver.chrome.options.Options,webdriver.comm
 
             # change to it
             os.chdir(target_directory)
-            
-            
-                
+                   
 
             # Download the chapter
-            new_pdf = self.download_pages(chapter, average_page_number=average_page_number)
+            new_pdf = self.download_pages(chapter_data =  chapter, average_page_number = average_page_number)
 
             # move the pdf to the pdf_directory
             command = 'mv '+'"'+new_pdf+'"'+' '+pdf_directory 

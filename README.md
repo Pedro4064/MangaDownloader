@@ -4,8 +4,8 @@
 •Download and make PDFs from mangas from [KissManga](https://kissmanga.com/).<br/>
 •You can determine the first and last chapter you wish to download.
 
-![Main prompt](https://github.com/Pedro4064/mDownloader/blob/master/Images/Main.png?raw=true)
-![-h as an argument](https://github.com/Pedro4064/mDownloader/blob/master/Images/-h.png?raw=true)
+![Main prompt](https://raw.githubusercontent.com/Pedro4064/MangaDownloader/develop/gitDemonstration.gif)
+
 
 ## [dailyCheck.py](https://github.com/Pedro4064/MangaDownloader/blob/master/Raspberry%20Pi%20Daily%20check/dailyCheck.py)
 •Set a raspberry pi to check every day for new volumes, download them, make a pdf and send to kindle/email automatically.<br/>
